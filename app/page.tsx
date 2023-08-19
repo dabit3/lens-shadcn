@@ -9,7 +9,7 @@ import {
 import {
   Loader2, ListMusic, Newspaper,
   PersonStanding, Shapes, Share, Globe,
-  MessageSquare, Repeat2, Heart, Grab
+  MessageSquare, Repeat2, Heart, Grab, ArrowRight
 } from "lucide-react"
 import { Button, buttonVariants } from '@/components/ui/button'
 import { cn } from "@/lib/utils"
@@ -57,8 +57,9 @@ export default function Home() {
         <div className="cursor-pointer flex items-center bg-secondary text-foreground rounded-lg py-1 px-3 mb-2 max-w-[288px]">
           <p className='mr-2'>📚</p>
           <p className="text-sm">
-          Learn more about Lens Protocol. ->
+          Learn more about Lens Protocol.
           </p>
+          <ArrowRight className='ml-2' size={14} />
         </div>
         </a>
         <h1 className="text-5xl font-bold mt-3">
