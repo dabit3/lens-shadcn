@@ -84,6 +84,7 @@ export default function Home() {
         <div>
           <Button
             variant="ghost"
+            onClick={() => setDashboardType('dashboard')}
             className={
             `${dashboardType !== 'dashboard' ? 'opacity-60' : '' }`
           }>My dashboard</Button>
@@ -91,13 +92,22 @@ export default function Home() {
         <div className="ml-4">
         <Button
           variant="ghost"
+          onClick={() => setDashboardType('algorithms')}
           className={
             `${dashboardType !== 'recommendation algorithms' ? 'opacity-50' : '' }`
           }>Choose your algorithm</Button>
         </div>
       </div>
 
-      <div className='md:flex min-h-[300px] mt-3'>
+      {
+        dashboardType === 'algorithms' && (
+          <div className='md:flex min-h-[300px] mt-3 px-6'>
+            <p>Choose your algorithm coming soon...</p>
+        </div>
+        )
+      }
+      {
+        dashboardType === 'dashboard' && (      <div className='md:flex min-h-[300px] mt-3'>
         <div className="border border rounded-tl rounded-bl md:w-[230px] pt-3 px-2 pb-8 flex-col flex">
           <p className='font-medium ml-4 mb-2 mt-1'>Social Views</p>
           <Button
@@ -290,7 +300,10 @@ export default function Home() {
             )
           }
         </div>
-      </div>
+      </div>)
+      }
+
+
     </main>
   )
 }
