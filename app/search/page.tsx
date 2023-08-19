@@ -1,7 +1,9 @@
 export default function Search() {
   return (
-    <div>
-      <p>Search</p>
+    <main className="px-10 py-14">
+      <div>
+      <p>Search coming soon.</p>
     </div>
+    </main>
   )
 }
