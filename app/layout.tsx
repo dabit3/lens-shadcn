@@ -38,7 +38,12 @@ function Nav() {
   const pathname = usePathname()
 
   return (
-    <nav className='border-b flex items-center pr-10'>
+    <nav className='
+    border-b flex
+    flex-col sm:flex-row
+    items-start sm:items-center
+    sm:pr-10
+    '>
       <div
         className='py-3 px-8 flex flex-1 items-center p'
       >
@@ -53,23 +58,29 @@ function Nav() {
           <p>Search</p>
         </Link>
       </div>
-      {
-        !address && (
-          <Button onClick={open} variant="secondary" className="mr-4">
-        Sign In
-        <ChevronRight className="h-4 w-4" />
-      </Button>
-        )
-      }
-                  {
-        address && (
-          <Button onClick={disconnect} variant="secondary" className="mr-4">
-          Sign out
-          <LogOut className="h-4 w-4 ml-3" />
+      <div className='
+        flex
+        sm:items-center
+        pl-8 pb-3 sm:p-0
+      '>
+        {
+          !address && (
+            <Button onClick={open} variant="secondary" className="mr-4">
+          Sign In
+          <ChevronRight className="h-4 w-4" />
         </Button>
-        )
-      }
-      <ModeToggle />
+          )
+        }
+        {
+          address && (
+            <Button onClick={disconnect} variant="secondary" className="mr-4">
+            Sign out
+            <LogOut className="h-4 w-4 ml-3" />
+          </Button>
+          )
+        }
+        <ModeToggle />
+      </div>
     </nav>
   )
 }

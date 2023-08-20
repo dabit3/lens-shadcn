@@ -14,6 +14,7 @@ import {
 import { Button, buttonVariants } from '@/components/ui/button'
 import { cn } from "@/lib/utils"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import ReactMarkdown from 'react-markdown'
 
 export default function Home() {
   const [view, setView] = useState('profiles')
@@ -51,7 +52,10 @@ export default function Home() {
   })
   
   return (
-    <main className="px-10 py-14">
+    <main className="
+      px-6 py-14
+      sm:px-10
+    ">
       <div>
         <a target="_blank" rel="no-opener" href="https://lens.xyz">
         <div className="cursor-pointer flex items-center bg-secondary text-foreground rounded-lg py-1 px-3 mb-2 max-w-[288px]">
@@ -157,7 +161,11 @@ export default function Home() {
                   profiles?.map(profile => (
                     <a
                       key={profile.id}
-                     className="lg:w-1/4 sm:w-1/2 p-4 cursor-pointer" rel="no-opener" target="_blank" href={`https://share.lens.xyz/u/${profile.handle}`}>
+                      className="
+                      lg:w-1/4 sm:w-1/2 p-4 cursor-pointer"
+                      rel="no-opener"
+                      target="_blank"
+                      href={`https://share.lens.xyz/u/${profile.handle}`}>
                       <div className="space-y-3">
                           <div className="overflow-hidden rounded-md">
                             <img alt="Thinking Components" loading="lazy" decoding="async" data-nimg="1" className="h-auto w-auto object-cover transition-all hover:scale-105 aspect-square" src={profile.picture?.original?.url} /></div><div className="space-y-1 text-sm">
@@ -185,8 +193,18 @@ export default function Home() {
                 }
                 {
                   publications?.map(publication => (
-                    <a target="_blank" rel-no-opener className="border-b " key={publication.id} href={`https://share.lens.xyz/p/${publication.id}`}>
-                      <div className="space-y-3 mb-4 pt-6 px-6 pb-2">
+                    <a
+                      target="_blank"
+                      rel-no-opener
+                      className="border-b"
+                      key={publication.id}
+                      href={`https://share.lens.xyz/p/${publication.id}`}
+                    >
+                      <div
+                      className="
+                      space-y-3 mb-4 pt-6 pb-2
+                      sm:px-6 px-2
+                      ">
                         <div className="flex">
                           <Avatar>
                             <AvatarImage src={publication.profile?.picture?.original?.url} />
@@ -199,13 +217,17 @@ export default function Home() {
                         </div>
                         <div>
                           <img
-                            className={cn(
-                              "max-w-[500px] rounded-2xl h-auto object-cover transition-all hover:scale-105")}
+                            className={cn(`
+                            max-w-full sm:max-w-[500px]
+                            rounded-2xl h-auto object-cover transition-all hover:scale-105
+                            `)}
                             src={publication.__typename === 'Post' ? publication.metadata?.media[0]?.original.url : ''}
                           />
-                          <p className="mt-4">
-                            {publication.metadata.content}
-                          </p>
+                          <ReactMarkdown className="
+                          mt-4 break-words
+                          ">
+                            {publication.metadata.content.replace(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig, '[LINK]($1)')}
+                          </ReactMarkdown>
                         </div>
                         <div>
                           <Button className="rounded-full mr-1"  variant="secondary" >
@@ -254,14 +276,16 @@ export default function Home() {
                             <AvatarFallback>{publication.profile.handle.slice(0, 2)}</AvatarFallback>
                           </Avatar>
                           <div className="ml-4">
-                               <h3 className="mb-1 font-medium leading-none">{publication.profile.handle}</h3>
-                              <p className="text-xs text-muted-foreground">{publication.profile.name}</p>
+                              <h3 className="mb-1 font-medium leading-none">{publication.profile.handle}</h3>
+                            <p className="text-xs text-muted-foreground">{publication.profile.name}</p>
                           </div>
                         </div>
                         <div>
                           <img
-                            className={cn(
-                              "mb-3 mt-1 max-w-[250px] rounded-2xl h-auto object-cover transition-all hover:scale-105")}
+                             className={cn(`
+                             max-w-full sm:max-w-[500px]
+                             rounded-2xl h-auto object-cover transition-all hover:scale-105
+                             `)}
                             src={publication.__typename === 'Post' ? publication.metadata?.media[0]?.original.cover?.replace('ipfs://', 'https://cloudflare-ipfs.com/ipfs/') : ''}
                           />
                           <audio controls>
@@ -270,9 +294,11 @@ export default function Home() {
                               src={publication.metadata?.media[0]?.original?.url}
                             />
                           </audio>
-                          <p className="mt-4">
-                            {publication.metadata?.content}
-                          </p>
+                          <ReactMarkdown className="
+                          mt-4 break-words
+                          ">
+                            {publication.metadata.content.replace(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig, '[LINK]($1)')}
+                          </ReactMarkdown>
                         </div>
                         <div>
                           <Button className="rounded-full mr-1"  variant="secondary" >
