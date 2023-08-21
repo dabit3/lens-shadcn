@@ -12,7 +12,13 @@ I will continue iterating on and improving this in the future.
 git clone git@github.com:dabit3/lens-shadcn.git
 ```
 
-2. Run the app
+2. Install dependencies
+
+```sh
+npm install # or yarn, etc..
+```
+
+3. Run the app
 
 ```sh
 npm run dev
