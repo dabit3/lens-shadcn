@@ -18,7 +18,9 @@ git clone git@github.com:dabit3/lens-shadcn.git
 npm install # or yarn, etc..
 ```
 
-3. Run the app
+3. Create WalletConnect ID, then copy the contents of `.example.env.local` to a new file called `.env.local` with the WalletConnect ID
+
+4. Run the app
 
 ```sh
 npm run dev
