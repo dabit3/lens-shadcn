@@ -7,8 +7,8 @@ import Link from 'next/link'
 const inter = Inter({ subsets: ['latin'] })
 import { ModeToggle } from '@/components/dropdown'
 import { ChevronRight, Droplets, LogOut } from "lucide-react"
-import LensProvider from './lens-provider'
-import { WalletProvider } from './WalletProvider'
+import { LensProvider } from './lens-provider'
+import { Web3ModalProvider } from './WalletProvider'
 import { Button } from '@/components/ui/button'
 import { useWeb3Modal } from '@web3modal/wagmi/react'
 import { useAccount } from 'wagmi'
@@ -33,7 +33,7 @@ function AppWithProviders({
 }
 
 function Nav() {
-  const { open, close, } = useWeb3Modal()
+  const { open } = useWeb3Modal()
   const { address } = useAccount()
   const pathname = usePathname()
 
@@ -66,7 +66,7 @@ function Nav() {
         {
           !address && (
             <Button onClick={() => open()} variant="secondary" className="mr-4">
-          Sign In
+          Connect Wallet
           <ChevronRight className="h-4 w-4" />
         </Button>
           )
@@ -74,7 +74,7 @@ function Nav() {
         {
           address && (
             <Button onClick={disconnect} variant="secondary" className="mr-4">
-            Sign out
+            Disconnect
             <LogOut className="h-4 w-4 ml-3" />
           </Button>
           )
@@ -89,9 +89,9 @@ export default function RootLayout({ children, ...props }) {
   return (
     <LensProvider>
         <AppWithProviders {...props}>
-          <WalletProvider>
+          <Web3ModalProvider>
           {children}
-          </WalletProvider>
+          </Web3ModalProvider>
         </AppWithProviders>
     </LensProvider>
   )

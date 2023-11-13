@@ -1,51 +1,76 @@
 'use client'
 import { useState } from 'react'
-import Image from 'next/image'
 import {
   useExploreProfiles,
-  useExplorePublications, PublicationTypes, PublicationSortCriteria,
-  PublicationMainFocus
+  useExplorePublications,
+  ExploreProfilesOrderByType,
+  ExplorePublicationsOrderByType,
+  ExplorePublicationType,
+  LimitType
 } from '@lens-protocol/react-web'
+
 import {
   Loader2, ListMusic, Newspaper,
-  PersonStanding, Shapes, Share, Globe,
+  PersonStanding, Shapes,
   MessageSquare, Repeat2, Heart, Grab, ArrowRight
 } from "lucide-react"
-import { Button, buttonVariants } from '@/components/ui/button'
+import { Button } from '@/components/ui/button'
 import { cn } from "@/lib/utils"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import ReactMarkdown from 'react-markdown'
+
+enum PublicationMetadataMainFocusType {
+  Article = "ARTICLE",
+  Audio = "AUDIO",
+  CheckingIn = "CHECKING_IN",
+  Embed = "EMBED",
+  Event = "EVENT",
+  Image = "IMAGE",
+  Link = "LINK",
+  Livestream = "LIVESTREAM",
+  Mint = "MINT",
+  ShortVideo = "SHORT_VIDEO",
+  Space = "SPACE",
+  Story = "STORY",
+  TextOnly = "TEXT_ONLY",
+  ThreeD = "THREE_D",
+  Transaction = "TRANSACTION",
+  Video = "VIDEO"
+}
 
 export default function Home() {
   const [view, setView] = useState('profiles')
   const [dashboardType, setDashboardType] = useState('dashboard')
   let { data: profiles, error: profileError, loading: loadingProfiles } = useExploreProfiles({
-    limit: 50
+    limit: LimitType.TwentyFive,
+    orderBy: ExploreProfilesOrderByType.MostFollowers
   }) as any
 
-  let { data: musicPubs, error: musicPubError, loading: loadingMusicPubs } = useExplorePublications({
-    limit: 25,
-    sortCriteria: PublicationSortCriteria.CuratedProfiles,
-    publicationTypes: [PublicationTypes.Post],
-    metadataFilter: {
-      restrictPublicationMainFocusTo: [PublicationMainFocus.Audio]
+  let { data: musicPubs, loading: loadingMusicPubs } = useExplorePublications({
+    limit: LimitType.TwentyFive,
+    orderBy: ExplorePublicationsOrderByType.TopCommented,
+    where: {
+      publicationTypes: [ExplorePublicationType.Post],
+      metadata: {
+        mainContentFocus: [PublicationMetadataMainFocusType.Audio]
+      }
     }
   }) as any
 
-  let { data: publications, error: pubError, loading: loadingPubs } = useExplorePublications({
-    limit: 25,
-    sortCriteria: PublicationSortCriteria.CuratedProfiles,
-    publicationTypes: [PublicationTypes.Post],
-    metadataFilter: {
-      restrictPublicationMainFocusTo: [PublicationMainFocus.Image]
+  let { data: publications, loading: loadingPubs } = useExplorePublications({
+    limit: LimitType.TwentyFive,
+    orderBy: ExplorePublicationsOrderByType.LensCurated,
+    where: {
+      publicationTypes: [ExplorePublicationType.Post],
     }
   }) as any
 
-  profiles = profiles?.filter(p => p.picture?.original?.url)
+
+  profiles = profiles?.filter(p => p.metadata?.picture?.optimized?.uri)
 
   publications = publications?.filter(p => {
-    if (p.metadata && p.metadata.media[0]) {
-      if (p.metadata.media[0].original.mimeType.includes('image')) return true
+    if (p.metadata && p.metadata.asset) {
+      if (p.metadata.asset.image) return true
       return false
     }
     return true
@@ -72,16 +97,6 @@ export default function Home() {
         <p className="mt-4 max-w-[750px] text-lg text-muted-foreground sm:text-xl">
           An application boilerplate built with a modern stack. Simple to get started building your first social app. Leveraging ShadCN, Lens Protocol, Next.js, and WalletConnect.
         </p>
-        <div className="mt-6 flex">
-          <Button variant="secondary" className='mr-3'>
-            <Share className="h-4 w-4 mr-1" />
-            Share
-          </Button>
-          <a target="_blank" rel="no-opener" href="https://aave.notion.site/08521d6d8ec84d10bf0f6d03abcf60cc?v=eb989b589d7447918187bf3c588a2748&pvs=4" className={buttonVariants({ variant: "outline" })}>
-            <Globe className="h-4 w-4 mr-1" />
-            Explore Lens Apps
-          </a>
-        </div>
       </div>
 
       <div className="mt-[70px] flex ml-2">
@@ -165,13 +180,18 @@ export default function Home() {
                       lg:w-1/4 sm:w-1/2 p-4 cursor-pointer"
                       rel="no-opener"
                       target="_blank"
-                      href={`https://share.lens.xyz/u/${profile.handle}`}>
+                      href={`https://share.lens.xyz/u/${profile.handle.namespace}/${profile.handle.localName}`}>
                       <div className="space-y-3">
                           <div className="overflow-hidden rounded-md">
-                            <img alt="Thinking Components" loading="lazy" decoding="async" data-nimg="1" className="h-auto w-auto object-cover transition-all hover:scale-105 aspect-square" src={profile.picture?.original?.url} /></div><div className="space-y-1 text-sm">
-                              <h3 className="font-medium leading-none">{profile.handle}</h3>
-                              <p className="text-xs text-muted-foreground">{profile.name}</p>
-                            </div>
+                            <img
+                              className="h-auto w-auto object-cover transition-all hover:scale-105 aspect-square"
+                              src={profile.metadata?.picture?.optimized?.uri
+                            } />
+                          </div>
+                          <div className="space-y-1 text-sm">
+                            <h3 className="font-medium leading-none">{profile.handle.localName}.{profile.handle.namespace}</h3>
+                            <p className="text-xs text-muted-foreground">{profile.metadata?.displayName}</p>
+                          </div>
                       </div>
                     </a>
                   ))
@@ -207,12 +227,12 @@ export default function Home() {
                       ">
                         <div className="flex">
                           <Avatar>
-                            <AvatarImage src={publication.profile?.picture?.original?.url} />
-                            <AvatarFallback>{publication.profile.handle.slice(0, 2)}</AvatarFallback>
+                            <AvatarImage src={publication.by?.metadata?.picture?.optimized?.uri} />
+                            <AvatarFallback>{publication.by.handle.localName.slice(0, 2)}</AvatarFallback>
                           </Avatar>
                           <div className="ml-4">
-                               <h3 className="mb-1 font-medium leading-none">{publication.profile.handle}</h3>
-                              <p className="text-xs text-muted-foreground">{publication.profile.name}</p>
+                               <h3 className="mb-1 font-medium leading-none">{publication.by.handle.localName}.{publication.by.handle.namespace}</h3>
+                              <p className="text-xs text-muted-foreground">{publication.by.metadata?.displayName}</p>
                           </div>
                         </div>
                         <div>
@@ -221,7 +241,7 @@ export default function Home() {
                             max-w-full sm:max-w-[500px]
                             rounded-2xl h-auto object-cover transition-all hover:scale-105
                             `)}
-                            src={publication.__typename === 'Post' ? publication.metadata?.media[0]?.original.url : ''}
+                            src={publication.__typename === 'Post' ? publication.metadata?.asset?.image?.optimized.uri : ''}
                           />
                           <ReactMarkdown className="
                           mt-4 break-words
@@ -272,26 +292,29 @@ export default function Home() {
                       <div className="space-y-3 mb-4 p-4">
                         <div className="flex">
                           <Avatar>
-                            <AvatarImage src={publication.profile?.picture?.original?.url} />
-                            <AvatarFallback>{publication.profile.handle.slice(0, 2)}</AvatarFallback>
+                            <AvatarImage src={publication.by?.metadata?.picture?.optimized?.uri} />
+                            <AvatarFallback>{publication.by.handle.fullHandle.slice(0, 2)}</AvatarFallback>
                           </Avatar>
                           <div className="ml-4">
-                              <h3 className="mb-1 font-medium leading-none">{publication.profile.handle}</h3>
-                            <p className="text-xs text-muted-foreground">{publication.profile.name}</p>
+                              <h3 className="mb-1 font-medium leading-none">{publication.by.handle.localName}.{publication.by.handle.namespace}</h3>
+                            <p className="text-xs text-muted-foreground">{publication.by.handle.fullName}</p>
                           </div>
                         </div>
                         <div>
                           <img
                              className={cn(`
-                             max-w-full sm:max-w-[500px]
+                             max-w-full sm:max-w-[500px] mb-3
                              rounded-2xl h-auto object-cover transition-all hover:scale-105
                              `)}
-                            src={publication.__typename === 'Post' ? publication.metadata?.media[0]?.original.cover?.replace('ipfs://', 'https://cloudflare-ipfs.com/ipfs/') : ''}
+                            src={publication.__typename === 'Post' ?
+                            publication.metadata?.asset?.cover?.optimized?.uri ?
+                            publication.metadata?.asset?.cover?.optimized?.uri :
+                            publication.metadata?.asset?.cover?.optimized?.raw?.uri : ''}
                           />
                           <audio controls>
                             <source
-                              type={publication.metadata?.media[0]?.original?.mimeType}
-                              src={publication.metadata?.media[0]?.original?.url}
+                              type={publication.metadata?.asset?.audio?.optimized?.mimeType}
+                              src={publication.metadata?.asset?.audio?.optimized?.uri}
                             />
                           </audio>
                           <ReactMarkdown className="
@@ -328,8 +351,6 @@ export default function Home() {
         </div>
       </div>)
       }
-
-
     </main>
   )
 }
