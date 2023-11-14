@@ -213,12 +213,10 @@ export default function Home() {
                 }
                 {
                   publications?.map(publication => (
-                    <a
-                      target="_blank"
-                      rel="no-opener"
+                    <div
                       className="border-b"
                       key={publication.id}
-                      href={`https://share.lens.xyz/p/${publication.id}`}
+                      onClick={() => window.open(`https://share.lens.xyz/p/${publication.id}`, '_blank')}
                     >
                       <div
                       className="
@@ -252,23 +250,23 @@ export default function Home() {
                         <div>
                           <Button className="rounded-full mr-1"  variant="secondary" >
                             <MessageSquare className="mr-2 h-4 w-4" />
-                            {publication.stats.totalAmountOfComments}
+                            {publication.stats.comments}
                           </Button>
                           <Button className="rounded-full mr-1" variant="secondary">
                             <Repeat2 className="mr-2 h-4 w-4" />
-                            {publication.stats.totalAmountOfMirrors}
+                            {publication.stats.mirrors}
                           </Button>
                           <Button className="rounded-full mr-1" variant="secondary">
                             <Heart className="mr-2 h-4 w-4" />
-                            {publication.stats.totalUpvotes}
+                            {publication.stats.upvotes}
                           </Button>
                           <Button className="rounded-full mr-1" variant="secondary">
                             <Grab className="mr-2 h-4 w-4" />
-                            {publication.stats.totalAmountOfCollects}
+                            {publication.stats.collects}
                           </Button>
                         </div>
                       </div>
-                    </a>
+                    </div>
                   ))
                 }
               </div>
@@ -288,7 +286,11 @@ export default function Home() {
                 }
                 {
                   musicPubs?.map(publication => (
-                    <a target="_blank" rel-no-opener className="border-b " key={publication.id} href={`https://share.lens.xyz/p/${publication.id}`}>
+                    <div
+                      className="border-b"
+                      key={publication.id}
+                      onClick={() => window.open(`https://share.lens.xyz/p/${publication.id}`, '_blank')}
+                    >
                       <div className="space-y-3 mb-4 p-4">
                         <div className="flex">
                           <Avatar>
@@ -326,23 +328,23 @@ export default function Home() {
                         <div>
                           <Button className="rounded-full mr-1"  variant="secondary" >
                             <MessageSquare className="mr-2 h-4 w-4" />
-                            {publication.stats.totalAmountOfComments}
+                            {publication.stats.comments}
                           </Button>
                           <Button className="rounded-full mr-1" variant="secondary">
                             <Repeat2 className="mr-2 h-4 w-4" />
-                            {publication.stats.totalAmountOfMirrors}
+                            {publication.stats.mirrors}
                           </Button>
                           <Button className="rounded-full mr-1" variant="secondary">
                             <Heart className="mr-2 h-4 w-4" />
-                            {publication.stats.totalUpvotes}
+                            {publication.stats.upvotes}
                           </Button>
                           <Button className="rounded-full mr-1" variant="secondary">
                             <Grab className="mr-2 h-4 w-4" />
-                            {publication.stats.totalAmountOfCollects}
+                            {publication.stats.collects}
                           </Button>
                         </div>
                       </div>
-                    </a>
+                    </div>
                   ))
                 }
               </div>
