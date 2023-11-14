@@ -215,7 +215,7 @@ export default function Home() {
                   publications?.map(publication => (
                     <a
                       target="_blank"
-                      rel-no-opener
+                      rel="no-opener"
                       className="border-b"
                       key={publication.id}
                       href={`https://share.lens.xyz/p/${publication.id}`}
