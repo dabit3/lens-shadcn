@@ -23,6 +23,6 @@ export function Web3ModalProvider({ children }) {
   return (
     <WagmiConfig config={wagmiConfig}>
       {children}
-      </WagmiConfig>
+    </WagmiConfig>
   )
 }

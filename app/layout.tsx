@@ -4,7 +4,6 @@ import './globals.css'
 import { Inter } from 'next/font/google'
 import { ThemeProvider } from "@/components/theme-provider"
 import Link from 'next/link'
-const inter = Inter({ subsets: ['latin'] })
 import { ModeToggle } from '@/components/dropdown'
 import { ChevronRight, Droplets, LogOut } from "lucide-react"
 import { LensProvider } from './lens-provider'
@@ -14,18 +13,19 @@ import { useWeb3Modal } from '@web3modal/wagmi/react'
 import { useAccount } from 'wagmi'
 import { disconnect } from '@wagmi/core'
 import { usePathname } from 'next/navigation'
+const inter = Inter({ subsets: ['latin'] })
 
-function AppWithProviders({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function Layout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Nav />
-          {children}
+          <Web3ModalProvider>
+            <LensProvider>
+              <Nav />
+              {children}
+            </LensProvider>
+          </Web3ModalProvider>
         </ThemeProvider>
       </body>
     </html>
@@ -82,17 +82,5 @@ function Nav() {
         <ModeToggle />
       </div>
     </nav>
-  )
-}
-
-export default function RootLayout({ children, ...props }) {
-  return (
-    <LensProvider>
-        <AppWithProviders {...props}>
-          <Web3ModalProvider>
-          {children}
-          </Web3ModalProvider>
-        </AppWithProviders>
-    </LensProvider>
   )
 }
