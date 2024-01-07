@@ -239,7 +239,7 @@ export default function Home() {
                             max-w-full sm:max-w-[500px]
                             rounded-2xl h-auto object-cover transition-all hover:scale-105
                             `)}
-                            src={publication.__typename === 'Post' ? publication.metadata?.asset?.image?.optimized.uri : ''}
+                            src={publication.__typename === 'Post' ? publication.metadata?.asset?.image?.optimized?.uri : ''}
                           />
                           <ReactMarkdown className="
                           mt-4 break-words
