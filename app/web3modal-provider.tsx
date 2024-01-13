@@ -1,28 +1,25 @@
 'use client'
 
-import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi/react'
+import { WagmiConfig, createConfig } from 'wagmi';
+import { mainnet, polygon, optimism, arbitrum } from 'wagmi/chains';
+import { ConnectKitProvider, getDefaultConfig } from 'connectkit';
 
-import { WagmiConfig } from 'wagmi'
-import { arbitrum, mainnet } from 'wagmi/chains'
-
-const projectId = process.env.NEXT_PUBLIC_WC_ID || 'placeholder-project-id'
-
-const metadata = {
-  name: 'Web3Modal',
-  description: 'Web3Modal Example',
-  url: 'https://web3modal.com',
-  icons: ['https://avatars.githubusercontent.com/u/37784886']
-}
-
-const chains = [mainnet, arbitrum]
-const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata })
-
-createWeb3Modal({ wagmiConfig, projectId, chains })
+const config = createConfig(
+  getDefaultConfig({
+    appName: 'ConnectKit Next.js demo',
+    //infuraId: process.env.NEXT_PUBLIC_INFURA_ID,
+    //alchemyId:  process.env.NEXT_PUBLIC_ALCHEMY_ID,
+    chains: [mainnet, polygon, optimism, arbitrum],
+    walletConnectProjectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!,
+  })
+);
 
 export function Web3ModalProvider({ children }) {
   return (
-    <WagmiConfig config={wagmiConfig}>
+    <WagmiConfig config={config}>
+      <ConnectKitProvider debugMode>
       {children}
+      </ConnectKitProvider>
     </WagmiConfig>
   )
 }
