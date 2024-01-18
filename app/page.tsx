@@ -1,12 +1,21 @@
 'use client'
-import { ConnectKitButton } from 'connectkit';
+
+
+import { GHO } from "@/components/GHO";
+import { Container } from "@mantine/core";
 
 export default function Home() {
- 
   
+
   return (
     <>
-    <ConnectKitButton />
+<Container size="lg">
+<GHO />
+
+</Container>
+ 
+
+
     </>
   )
 }

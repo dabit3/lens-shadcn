@@ -1,0 +1,33 @@
+.user {
+    display: block;
+    width: 100%;
+    padding: var(--mantine-spacing-md);
+    color: light-dark(var(--mantine-color-black), var(--mantine-color-dark-0));
+  
+    @mixin hover {
+      background-color: light-dark(
+        var(--mantine-color-gray-0),
+        var(--mantine-color-dark-8)
+      );
+    }
+  }
+  
+  @media (min-width: 987px) {
+    /* Adjust 768px to your actual 'md' breakpoint */
+    .footer {
+      display: none;
+    }
+  }
+  
+  .link {
+    @mixin hover {
+      background-color: light-dark(
+        var(--mantine-color-gray-0),
+        var(--mantine-color-dark-6)
+      );
+    }
+  
+    [data-mantine-color-scheme] &[data-active] {
+      background-color: var(--mantine-color-blue-light);
+    }
+  }

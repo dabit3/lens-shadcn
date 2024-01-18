@@ -31,7 +31,7 @@ function Profile({ address }) {
         <a
           rel='no-opener'
           target='_blank'
-        href={`https://share.lens.xyz/u/${profile.handle?.localName}.${profile.handle?.namespace}`}>
+          href={`https://share.lens.xyz/u/${profile.handle?.localName}.${profile.handle?.namespace}`}>
           <div className='border rounded-lg p-10'>
             <div>
               {

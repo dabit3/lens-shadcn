@@ -1,11 +1,13 @@
 import "@mantine/core/styles.css";
-import { Inter } from 'next/font/google'
+import '@mantine/carousel/styles.css';
+import { Orbitron } from 'next/font/google'
 import { LensProvider } from '@/app/lens-provider'
 import { Web3ModalProvider } from '@/app/web3modal-provider'
-import { MantineProvider } from "@mantine/core";
+import { MantineProvider, createTheme } from "@mantine/core";
 import { MantineAppShell } from '@/components/AppShell/MantineAppShell';
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Orbitron({ subsets: ['latin'] })
+
 
 export default function Layout({ children }) {
   return (

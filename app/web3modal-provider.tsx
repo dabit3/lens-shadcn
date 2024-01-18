@@ -17,7 +17,21 @@ const config = createConfig(
 export function Web3ModalProvider({ children }) {
   return (
     <WagmiConfig config={config}>
-      <ConnectKitProvider debugMode>
+      <ConnectKitProvider 
+      theme="retro" 
+      customTheme={{
+        "--ck-overlay-background": "rgba(212, 177, 250, 0.68)",
+        "--ck-body-background": "rgba(212, 177, 250, 0.68)",
+        "--ck-overlay-backdrop-filter": "blur(16px)",
+        "--ck-primary-button-hover-background": "rgba(212, 177, 250, 0.68)",
+        "--ck-secondary-button-hover-background": "rgba(212, 177, 250, 0.68)",
+        "--ck-secondary-button-color": "#373737",
+        "--ck-connectbutton-hover-background": "rgba(212, 177, 250, 0.68)",
+      }}
+      options={{
+          embedGoogleFonts: true,
+        }}
+      debugMode>
       {children}
       </ConnectKitProvider>
     </WagmiConfig>
