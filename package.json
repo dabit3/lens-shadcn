@@ -26,6 +26,7 @@
     "@types/react-dom": "18.2.7",
     "@web3modal/wagmi": "^3.5.0",
     "autoprefixer": "10.4.15",
+    "bignumber.js": "^9.1.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "connectkit": "^1.6.0",
@@ -42,6 +43,7 @@
     "react-infinite-scroll-component": "^6.1.0",
     "react-markdown": "^8.0.7",
     "recharts": "^2.10.4",
+    "reflect-metadata": "^0.2.1",
     "typescript": "5.1.6",
     "wagmi": "^1.4.12"
   },
