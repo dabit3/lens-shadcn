@@ -45,10 +45,6 @@ import {
         }
       }, [data, searchInput]); 
       
-
-  
-  
-  
     return (
       <>
   <Menu width={222} opened={opened} zIndex={1111111111} closeOnItemClick={true}>

@@ -11,10 +11,10 @@ import {
     Grid,
     MantineProvider, 
     Divider,
-    RingProgress
+    RingProgress,
   } from "@mantine/core";
 import { useSearchPublications, SearchPublicationType } from '@lens-protocol/react-web';
-import { RingLoader } from '@/components/Loader'
+
 import Post from "@/components/Post"
 import React from "react";
 import { useState, useEffect } from "react";
@@ -171,20 +171,9 @@ const incentiveDataProviderContract = new UiIncentiveDataProvider({
  <Space h="xs"/>
       </>
     ) : (
-      <MantineProvider
-      theme={{
-        components: {
-          Loader: Loader.extend({
-            defaultProps: {
-              loaders: { ...Loader.defaultLoaders, ring: RingLoader },
-              type: 'ring',
-            },
-          }),
-        },
-      }}
-    >
-      <Loader size={111}/>
-    </MantineProvider>
+      <Group justify="center">
+      <Loader color="purple" />
+    </Group>
     )}
         {surfFeed && (
 
